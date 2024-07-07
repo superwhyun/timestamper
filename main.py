@@ -249,18 +249,24 @@ class ImageProcessorApp(QWidget):
         output_layout.addWidget(self.output_edit)
         output_layout.addWidget(output_button)
 
-        # 폰트 드롭다운 목록 추가
-        font_layout = QHBoxLayout()
-        self.font_combo = QComboBox()
-        self.load_fonts()
-        font_layout.addWidget(QLabel('폰트:'))
-        font_layout.addWidget(self.font_combo)
+
 
         process_button = QPushButton('처리 시작')
         process_button.clicked.connect(self.start_processing)
 
         self.progress_bar = QProgressBar()
         self.result_label = QLabel()
+
+        # 폰트 드롭다운 목록 추가
+        font_layout = QHBoxLayout()
+        self.font_combo = QComboBox()
+        self.load_fonts()
+        font_layout.addWidget(QLabel('폰트:'))
+        font_layout.addWidget(self.font_combo)
+        # 설정 값으로 초기화
+        self.input_edit.setText(self.settings.get("input_folder", ""))
+        self.output_edit.setText(self.settings.get("output_folder", ""))
+        self.font_combo.setCurrentText(self.settings.get("font", ""))    
 
         layout.addLayout(input_layout)
         layout.addLayout(output_layout)
@@ -271,21 +277,21 @@ class ImageProcessorApp(QWidget):
 
         self.setLayout(layout)
 
-        # 설정 값으로 초기화
-        self.input_edit.setText(self.settings.get("input_folder", ""))
-        self.output_edit.setText(self.settings.get("output_folder", ""))
-        self.font_combo.setCurrentText(self.settings.get("font", ""))
+
+
+
 
     def load_fonts(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         font_dir = os.path.join(script_dir, "fonts")
+        
 
         if os.path.exists(font_dir):
             font_files = [f for f in os.listdir(font_dir) if f.lower().endswith(('.ttf', '.otf', '.ttc'))]
             for font_file in font_files:
                 self.font_combo.addItem(font_file)
         else:
-            self.result_label.setText("fonts 폴더를 찾을 수 없습니다.")
+            self.result_label.setText(f"{font_dir} 폴더를 찾을 수 없습니다.")
 
     def save_settings(self):
         self.settings["input_folder"] = self.input_edit.text()

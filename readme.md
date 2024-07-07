@@ -28,6 +28,10 @@
 
    ![샘플 이미지 설명](images/sample.jpg)
 
+4. **실행파일 만들기**
+   - `pyinstaller --noconsole main.py` 실행
+   - fonts 디렉토리를 _internal 디렉토리 밑으로 복사
+   
 ### 주의 사항
 
 - EXIF 데이터가 없는 이미지 파일은 타임스탬프 정보를 가져올 수 없으므로, 현재 시간과 위치 정보를 사용합니다.
